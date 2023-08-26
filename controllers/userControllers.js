@@ -27,28 +27,29 @@ export const uploadJob = async (req, res) => {
   try {
     const { title, description } = req.body;
 
-    if (!req.files || !req.files.thumbnail || !req.files.video) {
+    if (!req.file) {
       return res.status(StatusCodes.BAD_REQUEST).json({
-        message: "Both thumbnail and video files are required",
+        message: "Thumbnail file is required",
       });
     }
 
-    const thumbnailResponse = await cloudinary.uploader.upload(
-      req.files.thumbnail[0].path
+    const thumbnailResponse = await cloudinary.v2.uploader.upload(
+      req.file.path
     );
-    const videoResponse = await cloudinary.uploader.upload(
-      req.files.video[0].path
-    );
+
+    if (!thumbnailResponse.secure_url) {
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        message: "Error uploading thumbnail to Cloudinary",
+      });
+    }
 
     const newJob = new Job({
       userId: req.user.userId,
       title,
       description,
       thumbnailUrl: thumbnailResponse.secure_url,
-      videoUrl: videoResponse.secure_url,
     });
 
-    
     await newJob.save();
 
     res

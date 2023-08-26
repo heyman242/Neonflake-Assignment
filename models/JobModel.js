@@ -16,11 +16,9 @@ const JobSchema = new mongoose.Schema({
   },
   thumbnailUrl: {
     type: String,
-    required: true,
   },
   videoUrl: {
     type: String,
-    required: true,
   },
 });
 
