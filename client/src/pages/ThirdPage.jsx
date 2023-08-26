@@ -20,16 +20,24 @@ const ThirdPage = () => {
   }, [jobId]);
 
   return (
-    <div>
-      <h2>Video Player</h2>
-      {videoUrl ? (
-        <video controls>
-          <source src={videoUrl} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      ) : (
-        <p>Loading video...</p>
-      )}
+    <div >
+      <h1 className="text-2xl font-bold mb-4 text-center">Video Player</h1>
+      <div className=" flex items-center justify-center p-1">
+        {videoUrl ? (
+          <video
+            controls
+            style={{
+              width: "600px",
+              height: "600px",
+            }}
+          >
+            <source src={videoUrl} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        ) : (
+          <p>Loading video...</p>
+        )}
+      </div>
     </div>
   );
 };
