@@ -27,14 +27,28 @@ export const uploadJob = async (req, res) => {
   try {
     const { title, description } = req.body;
 
-    if (!req.file) {
+    if (!req.files || !req.files["thumbnail"] || !req.files["video"]) {
       return res.status(StatusCodes.BAD_REQUEST).json({
-        message: "Thumbnail file is required",
+        message: "Both thumbnail and video files are required",
+      });
+    }
+
+    const thumbnailFile = req.files["thumbnail"][0];
+    const videoFile = req.files["video"][0];
+
+    if (!thumbnailFile || !videoFile) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        message: "Both thumbnail and video files are required",
       });
     }
 
     const thumbnailResponse = await cloudinary.v2.uploader.upload(
-      req.file.path
+      thumbnailFile.path
+    );
+
+    const videoResponse = await cloudinary.v2.uploader.upload(
+      videoFile.path,
+      { resource_type: "video" } 
     );
 
     if (!thumbnailResponse.secure_url) {
@@ -43,11 +57,18 @@ export const uploadJob = async (req, res) => {
       });
     }
 
+    if (!videoResponse.secure_url) {
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        message: "Error uploading video to Cloudinary",
+      });
+    }
+
     const newJob = new Job({
       userId: req.user.userId,
       title,
       description,
       thumbnailUrl: thumbnailResponse.secure_url,
+      videoUrl: videoResponse.secure_url,
     });
 
     await newJob.save();

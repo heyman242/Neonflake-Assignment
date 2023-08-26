@@ -7,6 +7,8 @@ const MainPage = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [thumbnailFile, setThumbnailFile] = useState(null);
+  const [videoFile, setVideoFile] = useState(null);
+
 
   const handleFileInputChange = (e, fileType) => {
     const file = e.target.files[0];
@@ -19,34 +21,39 @@ const MainPage = () => {
     if (fileType === "thumbnail") {
       setThumbnailFile(file);
     }
+    if (fileType === "video") {
+      setVideoFile(file);
+    }
   };
 
-  const uploadThumbnail = async (e) => {
+  const uploadFiles = async (e) => {
     e.preventDefault();
 
-    if (title && description && thumbnailFile) {
+    if (title && description && thumbnailFile && videoFile) {
       const formData = new FormData();
       formData.append("title", title);
       formData.append("description", description);
-      formData.append("thumbnail", thumbnailFile);
+      formData.append("thumbnail", thumbnailFile); 
+      formData.append("video", videoFile); 
 
       try {
         const response = await axios.post("/api/v1/user/upload", formData);
         if (response.status === 201) {
-          toast.success("Thumbnail Upload successful");
+          toast.success("Upload successful");
         }
       } catch (error) {
         toast.error(error?.response?.data?.message);
       }
     } else {
-      toast.error("Please fill in all fields and select a thumbnail file");
+      toast.error("Please fill in all fields and select files");
     }
   };
+
 
   return (
     <div>
       <Form className="form" encType="multipart/form-data">
-        <h2>Upload Thumbnail</h2>
+        <h2>Upload </h2>
         <input
           type="text"
           placeholder="Title"
@@ -65,7 +72,13 @@ const MainPage = () => {
           accept="image/*"
           onChange={(e) => handleFileInputChange(e, "thumbnail")}
         />
-        <button onClick={uploadThumbnail}>Upload Thumbnail</button>
+        <input
+          type="file"
+          name="video"
+          accept="video/*"
+          onChange={(e) => handleFileInputChange(e, "video")}
+        />
+        <button onClick={uploadFiles}>Upload </button>
       </Form>
     </div>
   );
