@@ -12,6 +12,9 @@ import {
   ThirdPage,
 } from "./pages";
 
+import { action as loginAction } from "./pages/Login";
+import { action as registerAction } from "./pages/Register";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -24,10 +27,12 @@ const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
+        action: registerAction,
       },
       {
         path: "login",
         element: <Login />,
+        action: loginAction,
       },
       {
         path: "dashboard",
