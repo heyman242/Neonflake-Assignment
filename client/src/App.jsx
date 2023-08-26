@@ -44,7 +44,6 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <MainPage />,
-            
           },
           {
             path: "upload/list",

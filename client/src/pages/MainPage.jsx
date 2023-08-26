@@ -2,12 +2,14 @@ import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { Form, Link } from "react-router-dom";
+import { FaSpinner } from "react-icons/fa";
 
 const MainPage = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [thumbnailFile, setThumbnailFile] = useState(null);
   const [videoFile, setVideoFile] = useState(null);
+   const [isLoading, setIsLoading] = useState(false);
 
   const handleFileInputChange = (e, fileType) => {
     const file = e.target.files[0];
@@ -29,6 +31,7 @@ const MainPage = () => {
     e.preventDefault();
 
     if (title && description && thumbnailFile && videoFile) {
+      setIsLoading(true);
       const formData = new FormData();
       formData.append("title", title);
       formData.append("description", description);
@@ -39,9 +42,15 @@ const MainPage = () => {
         const response = await axios.post("/api/v1/user/upload", formData);
         if (response.status === 201) {
           toast.success("Upload successful");
+          setTitle("");
+          setDescription("");
+          setThumbnailFile(null);
+          setVideoFile(null);
         }
       } catch (error) {
         toast.error(error?.response?.data?.message);
+      } finally {
+        setIsLoading(false); 
       }
     } else {
       toast.error("Please fill in all fields and select files");
@@ -100,16 +109,27 @@ const MainPage = () => {
           />
         </div>
         <button
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg"
+          type="button"
+          className={`w-full bg-indigo-500 hover:bg-indigo-600 text-white py-2 px-4 rounded-lg ${
+            isLoading ? "bg-opacity-50 cursor-not-allowed" : ""
+          }`}
           onClick={uploadFiles}
+          disabled={isLoading}
         >
-          Upload
+          {isLoading ? (
+            <div className="flex items-center">
+              <FaSpinner className="animate-spin h-5 w-5 mr-3" />
+              Processing...
+            </div>
+          ) : (
+            "Upload"
+          )}
         </button>
       </Form>
       <br />
       <Link
         to="upload/list"
-        className="w-full bg-green-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg"
+        className="w-full bg-green-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg flex items-center justify-center"
       >
         See Uploads
       </Link>

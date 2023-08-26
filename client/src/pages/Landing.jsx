@@ -13,12 +13,42 @@ const Landing = () => {
           <h1 className="text-4xl font-bold mb-2">
             Video<span className="text-blue-500">Vault</span>
           </h1>
-          <p className="text-gray-700">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vitae
-            quis, labore pariatur nisi voluptatibus culpa dolorem nesciunt! Ut
-            architecto consequatur reprehenderit, voluptates dolorem vitae
-            nesciunt impedit temporibus, nam molestiae officiis.
-          </p>
+          <div className="text-gray-700">
+            VideoVault is a user-friendly platform for uploading images and
+            videos.
+            <br />
+            <h3>
+              <strong>Technologies Used:</strong>
+            </h3>
+            <ul>
+              <li>
+                <strong>React:</strong> For building the frontend.
+              </li>
+              <li>
+                <strong>Node:</strong> For building the backend.
+              </li>
+              <li>
+                <strong>Express:</strong> For building backend server.
+              </li>
+              <li>
+                <strong>Mongo DB:</strong> Store user information.
+              </li>
+              <li>
+                <strong>Tailwind CSS:</strong> Used for styling.
+              </li>
+              <li>
+                <strong>Multer:</strong> Library used for file uploads.
+              </li>
+              <li>
+                <strong>React Router:</strong> For navigation between different
+                pages.
+              </li>
+              <li>
+                <strong>Cloudinary API:</strong> to uploads images and videos on
+                cloud.
+              </li>
+            </ul>
+          </div>
           <div className="mt-4">
             <Link
               to="/login"

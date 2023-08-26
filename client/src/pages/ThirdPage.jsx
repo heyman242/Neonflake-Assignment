@@ -20,12 +20,13 @@ const ThirdPage = () => {
   }, [jobId]);
 
   return (
-    <div >
+    <div>
       <h1 className="text-2xl font-bold mb-4 text-center">Video Player</h1>
       <div className=" flex items-center justify-center p-1">
         {videoUrl ? (
           <video
             controls
+            autoPlay
             style={{
               width: "600px",
               height: "600px",
