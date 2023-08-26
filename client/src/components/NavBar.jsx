@@ -1,9 +1,32 @@
+import { MainIcon, LogoutIcon } from "../assets/icons";
+import { useDashboardContext } from "../pages/DashboardLayout";
 
+const Navbar = () => {
+  const { user, logoutUser } = useDashboardContext();
 
-const NavBar = () => {
   return (
-    <div>NavBar</div>
-  )
-}
+    <header className="p-2 md:p-4 flex justify-between items-center">
+      <a href="/" className="flex items-center gap-1">
+        <MainIcon />
+        <span className="font-bold text-xl">VideoVault</span>
+      </a>
+      <div className="hidden md:block">
+        <div className="font-bold text-xl border border-gray-500 rounded-full px-4 py-1 shadow shadow-gray-300">
+          Welcome: {user?.name}
+        </div>
+      </div>
+      <div>
+        <button
+          type="button"
+          onClick={logoutUser}
+          className="mx-2 flex font-bold text-xl"
+        >
+          Logout
+          <LogoutIcon />
+        </button>
+      </div>
+    </header>
+  );
+};
 
-export default NavBar
+export default Navbar;
