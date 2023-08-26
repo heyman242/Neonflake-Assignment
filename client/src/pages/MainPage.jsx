@@ -9,7 +9,6 @@ const MainPage = () => {
   const [thumbnailFile, setThumbnailFile] = useState(null);
   const [videoFile, setVideoFile] = useState(null);
 
-
   const handleFileInputChange = (e, fileType) => {
     const file = e.target.files[0];
 
@@ -33,8 +32,8 @@ const MainPage = () => {
       const formData = new FormData();
       formData.append("title", title);
       formData.append("description", description);
-      formData.append("thumbnail", thumbnailFile); 
-      formData.append("video", videoFile); 
+      formData.append("thumbnail", thumbnailFile);
+      formData.append("video", videoFile);
 
       try {
         const response = await axios.post("/api/v1/user/upload", formData);
@@ -49,38 +48,71 @@ const MainPage = () => {
     }
   };
 
-
   return (
-    <div>
-      <Form className="form" encType="multipart/form-data">
-        <h2>Upload </h2>
-        <input
-          type="text"
-          placeholder="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-        <input
-          type="file"
-          name="thumbnail"
-          accept="image/*"
-          onChange={(e) => handleFileInputChange(e, "thumbnail")}
-        />
-        <input
-          type="file"
-          name="video"
-          accept="video/*"
-          onChange={(e) => handleFileInputChange(e, "video")}
-        />
-        <button onClick={uploadFiles}>Upload </button>
+    <div className="max-w-md mx-auto p-6 bg-gray-100 rounded-lg shadow-lg">
+      <Form className="space-y-4" encType="multipart/form-data">
+        <div className="mb-4">
+          <label className="block text-gray-700 text-xl font-bold mb-2 text-center">
+            Title
+          </label>
+          <input
+            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+            type="text"
+            placeholder="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-xl font-bold mb-2 text-center">
+            Description
+          </label>
+          <input
+            className="w-full px-6 py-6 border rounded-lg focus:outline-none focus:border-blue-500"
+            type="text"
+            placeholder="Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-xl font-bold mb-2 text-center">
+            Thumbnail (Image)
+          </label>
+          <input
+            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+            type="file"
+            name="thumbnail"
+            accept="image/*"
+            onChange={(e) => handleFileInputChange(e, "thumbnail")}
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-xl font-bold mb-2 text-center">
+            Video
+          </label>
+          <input
+            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+            type="file"
+            name="video"
+            accept="video/*"
+            onChange={(e) => handleFileInputChange(e, "video")}
+          />
+        </div>
+        <button
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg"
+          onClick={uploadFiles}
+        >
+          Upload
+        </button>
       </Form>
-      <Link to='upload/list'>Uploads</Link>
+      <br />
+      <Link
+        to="upload/list"
+        className="w-full bg-green-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg"
+      >
+        See Uploads
+      </Link>
     </div>
   );
 };

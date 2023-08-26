@@ -51,7 +51,7 @@ const router = createBrowserRouter([
             element: <SecondPage />,
           },
           {
-            path: "upload/detail",
+            path: "upload/:jobId",
             element: <ThirdPage />,
           },
         ],
