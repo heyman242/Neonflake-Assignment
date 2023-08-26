@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { Form } from "react-router-dom";
+import { Form, Link } from "react-router-dom";
 
 const MainPage = () => {
   const [title, setTitle] = useState("");
@@ -80,6 +80,7 @@ const MainPage = () => {
         />
         <button onClick={uploadFiles}>Upload </button>
       </Form>
+      <Link to='upload/list'>Uploads</Link>
     </div>
   );
 };

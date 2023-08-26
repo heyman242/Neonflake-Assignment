@@ -46,10 +46,9 @@ export const uploadJob = async (req, res) => {
       thumbnailFile.path
     );
 
-    const videoResponse = await cloudinary.v2.uploader.upload(
-      videoFile.path,
-      { resource_type: "video" } 
-    );
+    const videoResponse = await cloudinary.v2.uploader.upload(videoFile.path, {
+      resource_type: "video",
+    });
 
     if (!thumbnailResponse.secure_url) {
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
@@ -90,6 +89,33 @@ export const getUploads = async (req, res) => {
     res.status(StatusCodes.OK).json({ uploads });
   } catch (error) {
     console.error("Error fetching uploads:", error);
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: "Internal server error" });
+  }
+};
+
+export const getVideo = async (req, res) => {
+  try {
+    const { jobId } = req.params;
+
+    if (!jobId) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        message: "jobId parameter is required",
+      });
+    }
+
+    const job = await Job.findById(jobId);
+
+    if (!job) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        message: "Job not found",
+      });
+    }
+
+    res.status(StatusCodes.OK).json({ videoUrl: job.videoUrl });
+  } catch (error) {
+    console.error("Error fetching video:", error);
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ message: "Internal server error" });
