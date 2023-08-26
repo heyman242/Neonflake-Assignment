@@ -83,3 +83,15 @@ export const uploadJob = async (req, res) => {
       .json({ message: "Internal server error" });
   }
 };
+
+export const getUploads = async (req, res) => {
+  try {
+    const uploads = await Job.find({}, "title description thumbnailUrl");
+    res.status(StatusCodes.OK).json({ uploads });
+  } catch (error) {
+    console.error("Error fetching uploads:", error);
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: "Internal server error" });
+  }
+};
