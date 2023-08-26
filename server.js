@@ -4,12 +4,19 @@ import express from "express";
 import mongoose from "mongoose";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
+import cloudinary from "cloudinary";
 
 import authRouter from "./routes/authRouter.js";
 import userRouter from "./routes/userRouter.js";
 import { authenticateUser } from "./middleware/authMiddleware.js";
 
 const app = express();
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET,
+});
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
